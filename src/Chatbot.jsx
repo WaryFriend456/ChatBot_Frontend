@@ -21,6 +21,8 @@ const Chatbot = () => {
 
   useEffect(() => {
     fetchSessions();
+    startNewSession();
+    toggleDarkMode(); // Toggle dark mode by default          
   }, []);
 
   useEffect(() => {
@@ -85,6 +87,7 @@ const Chatbot = () => {
 
   return (
     <>
+      <div id='root' style={{ backgroundColor: darkMode ? 'gray' : 'white'}}>
       <div className={`flex h-screen items-center justify-center ${darkMode ? 'dark' : ''}`}>
         <div className="w-full xl:w-1/4">
           <div className="flex justify-center">
@@ -99,8 +102,9 @@ const Chatbot = () => {
                     onClick={() => selectSession(session)}
                     className={`p-4 mb-2 cursor-pointer rounded ${session.session_id === sessionId ? 'bg-blue-200 dark:bg-blue-600' : 'hover:bg-gray-200 dark:hover:bg-gray-600'
                       }`}
+                      style={{color: darkMode ? 'white' : 'black'}}
                   >
-                    {session.session_id}
+                    {session.messages[0]? session.messages[0]['user'] : "New Chat Session"}
                   </div>
                 ))}
               </CardBody>
@@ -135,7 +139,7 @@ const Chatbot = () => {
                 </Button>
               </div>
             </CardHeader>
-            <CardBody className="flex-1 overflow-y-auto px-4 dark:bg-gray-700" style={{ maxHeight: 'calc(100vh - 240px)' }}>
+            <CardBody className="flex-1 overflow-y-auto px-4 dark:bg-gray-800" style={{ maxHeight: 'calc(100vh - 240px)' }}>
               {messages.map((message, index) => (
                 <div key={index} className="mb-4">
                   {message.user && (
@@ -150,7 +154,7 @@ const Chatbot = () => {
                     <div className="flex justify-start mb-2">
                       <Avatar src="https://img.freepik.com/free-vector/chatbot-chat-message-vectorart_78370-4104.jpg?size=338&ext=jpg&ga=GA1.1.2116175301.1719100800&semt=ais_user" alt="avatar" />
                       <div className='px-1'></div>
-                      <div className="bg-gray-200 text-gray-800 rounded-lg py-2 px-4 max-w-xl dark:bg-gray-600 dark:text-gray-100">
+                      <div className="bg-gray-200 text-gray-800 rounded-lg py-2 px-4 max-w-xl dark:bg-gray-900 dark:text-gray-100">
                         <strong>Bot:</strong> {message.chatbot}
                       </div>
                     </div>
@@ -162,13 +166,15 @@ const Chatbot = () => {
             <CardFooter>
               <div className="px-4 py-3 border-t border-gray-300 flex items-center dark:border-gray-600">
                 <Input
+                  label='User'
                   type="text"
-                  placeholder="Ask a question..."
+                  color='blue'
+                  // placeholder="Ask a question..."
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleQuery()}
                   disabled={loading || !sessionId}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-l focus:outline-none focus:ring focus:ring-blue-500 dark:bg-gray-600 dark:text-gray-100 dark:focus:ring-gray-700"
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-l focus:outline-none dark:bg-gray-600 dark:text-gray-100 dark:focus:ring-gray-700"
                 />
                 <Button
                   color="blue"
@@ -184,6 +190,7 @@ const Chatbot = () => {
             </CardFooter>
           </Card>
         </div>
+      </div>
       </div>
     </>
   );
