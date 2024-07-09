@@ -26,7 +26,7 @@ const Login = () => {
     try {
       console.log(username, password);
       const response = await axios.post('http://localhost:8000/login', { name: username, password });
-      alert(response.data.UID);
+      alert("Login Successful.");
       localStorage.setItem("UID", response.data.UID);
       navigate('/chatbot'); // Redirect to chatbot route after login
     } catch (error) {

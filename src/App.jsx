@@ -9,15 +9,19 @@ const ProtectedRoute = ({ children }) => {
   return isLoggedIn ? children : <Navigate to="/login" />;
 };
 
+const ReverseProtection = ({ children }) => {
+  const isLoggedIn = localStorage.getItem("UID"); // Check if user is logged in
+  return isLoggedIn ? <Navigate to="/chatbot" /> : children; // Redirect logged-in users to chatbot, otherwise render children
+}
+
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="*" element={<Navigate to="/login" />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Registration />} />
+        <Route path="/login" element={<ReverseProtection><Login /></ReverseProtection>} />
+        <Route path="/register" element={<ReverseProtection><Registration /></ReverseProtection>} />
         <Route path="/chatbot" element={<ProtectedRoute><Chatbot /></ProtectedRoute>} />
-        {/* Redirect to login if no other routes matched and user is not logged in */}
       </Routes>
     </BrowserRouter>
   );

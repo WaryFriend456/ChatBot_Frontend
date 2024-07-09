@@ -84,7 +84,8 @@ const Chatbot = () => {
   };
 
   const logout = () => {
-    localStorage.removeItem("UID"); // Remove the user's session or token
+    localStorage.removeItem("UID");
+    alert("Logout Successful") // Remove the user's session or token
     window.location.href = '/login'; // Redirect to login page
   };
 
@@ -179,13 +180,15 @@ const Chatbot = () => {
             <div className="p-4 border-t border-gray-300 dark:border-gray-600">
               <div className="flex items-center">
                 <Input
+                  label='Enter Query'
+                  color={darkMode ? 'white' : 'blue'}
                   type="text"
                   placeholder="Ask a question..."
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleQuery()}
                   disabled={loading || !sessionId}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-l focus:outline-none focus:ring focus:ring-blue-500 dark:bg-gray-600 dark:text-gray-100 dark:focus:ring-gray-700"
+                  className="flex-1 px-3 py-2 rounded-l dark:bg-gray-600 dark:text-white"
                 />
                 <Button
                   color="blue"
